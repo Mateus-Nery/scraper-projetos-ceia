@@ -1,20 +1,25 @@
 const state = {
   data: null,
+  activePartner: "Todos",
   activeArea: "Todos",
   activeType: "Todos",
   search: "",
 };
 
 const heroStats = document.querySelector("#hero-stats");
+const partnerFilters = document.querySelector("#partner-filters");
 const areaFilters = document.querySelector("#area-filters");
 const typeFilters = document.querySelector("#type-filters");
+const partnerSummary = document.querySelector("#partner-summary");
 const areaSummary = document.querySelector("#area-summary");
 const typeSummary = document.querySelector("#type-summary");
 const cardsGrid = document.querySelector("#cards-grid");
 const emptyState = document.querySelector("#empty-state");
 const resultsSummary = document.querySelector("#results-summary");
+const partnerCountLabel = document.querySelector("#partner-count-label");
 const typeCountLabel = document.querySelector("#type-count-label");
 const areaCountLabel = document.querySelector("#area-count-label");
+const summaryPartnerTotal = document.querySelector("#summary-partner-total");
 const summaryAreaTotal = document.querySelector("#summary-area-total");
 const summaryTypeTotal = document.querySelector("#summary-type-total");
 const clearFiltersButton = document.querySelector("#clear-filters");
@@ -41,12 +46,14 @@ function render() {
 function renderHeroStats() {
   const projectCount = state.data.projectCount;
   const responsibleCount = new Set(state.data.projects.map((project) => project.responsible)).size;
+  const partnersCount = state.data.partnerCounts.length;
   const areasCount = state.data.areaCounts.length;
   const typesCount = state.data.typeCounts.length;
 
   const stats = [
     ["Projetos", projectCount],
     ["Responsáveis", responsibleCount],
+    ["Órgãos", partnersCount],
     ["Áreas", areasCount],
     ["Tipos", typesCount],
   ];
@@ -64,12 +71,15 @@ function renderHeroStats() {
 }
 
 function renderFilterGroups() {
+  const partnerOptions = [{ label: "Todos", count: state.data.projectCount }, ...state.data.partnerCounts];
   const typeOptions = [{ label: "Todos", count: state.data.projectCount }, ...state.data.typeCounts];
   const areaOptions = [{ label: "Todos", count: state.data.projectCount }, ...state.data.areaCounts];
 
+  partnerCountLabel.textContent = `${state.data.partnerCounts.length} grupos`;
   typeCountLabel.textContent = `${state.data.typeCounts.length} categorias`;
   areaCountLabel.textContent = `${state.data.areaCounts.length} categorias`;
 
+  partnerFilters.innerHTML = buildChipGroup(partnerOptions, state.activePartner, "partner");
   typeFilters.innerHTML = buildChipGroup(typeOptions, state.activeType, "type");
   areaFilters.innerHTML = buildChipGroup(areaOptions, state.activeArea, "area");
 
@@ -77,7 +87,9 @@ function renderFilterGroups() {
     button.addEventListener("click", () => {
       const group = button.dataset.filterGroup;
       const value = button.dataset.filterValue;
-      if (group === "type") {
+      if (group === "partner") {
+        state.activePartner = value;
+      } else if (group === "type") {
         state.activeType = value;
       } else {
         state.activeArea = value;
@@ -106,8 +118,10 @@ function buildChipGroup(options, activeValue, group) {
 }
 
 function renderSummaryPanels() {
+  summaryPartnerTotal.textContent = `${state.data.partnerCounts.length} grupos`;
   summaryAreaTotal.textContent = `${state.data.areaCounts.length} áreas`;
   summaryTypeTotal.textContent = `${state.data.typeCounts.length} tipos`;
+  partnerSummary.innerHTML = buildSummaryList(state.data.partnerCounts);
   areaSummary.innerHTML = buildSummaryList(state.data.areaCounts);
   typeSummary.innerHTML = buildSummaryList(state.data.typeCounts);
 }
@@ -132,11 +146,12 @@ function buildSummaryList(items) {
 function getFilteredProjects() {
   const query = state.search.trim().toLowerCase();
   return state.data.projects.filter((project) => {
+    const matchPartner = state.activePartner === "Todos" || project.partnerGroup === state.activePartner;
     const matchArea = state.activeArea === "Todos" || project.area === state.activeArea;
     const matchType = state.activeType === "Todos" || project.type === state.activeType;
-    const haystack = `${project.description} ${project.responsible}`.toLowerCase();
+    const haystack = `${project.description} ${project.responsible} ${project.partnerGroup}`.toLowerCase();
     const matchSearch = !query || haystack.includes(query);
-    return matchArea && matchType && matchSearch;
+    return matchPartner && matchArea && matchType && matchSearch;
   });
 }
 
@@ -179,12 +194,13 @@ function openProject(id) {
   if (!project) return;
 
   dialogContent.innerHTML = `
-    <p class="eyebrow">Projeto CEIA</p>
+    <p class="eyebrow">Projeto Ativo</p>
     <h2 class="dialog-title">${project.description}</h2>
     <p class="summary-copy" style="margin-top: 12px;">
       Responsável: <strong>${project.responsible}</strong>
     </p>
     <div class="dialog-meta">
+      ${dialogMetaCard("Órgão parceiro", project.partnerGroup)}
       ${dialogMetaCard("Área", project.area)}
       ${dialogMetaCard("Tipo", project.type)}
       ${dialogMetaCard("Modalidade original", project.modality || "Não informada")}
@@ -224,6 +240,7 @@ searchInput.addEventListener("input", (event) => {
 });
 
 clearFiltersButton.addEventListener("click", () => {
+  state.activePartner = "Todos";
   state.activeArea = "Todos";
   state.activeType = "Todos";
   state.search = "";

@@ -99,6 +99,15 @@ def classify_type(title: str, modality: str, agreement_type: str) -> str:
     return "Não classificado"
 
 
+def classify_partner_group(partner_name: str) -> str:
+    normalized_partner = normalize_text(partner_name)
+    if "polo embrapii ceia" in normalized_partner:
+        return "CEIA"
+    if "instituto de informatica" in normalized_partner:
+        return "Instituto de Informática"
+    return title_case_name(partner_name) if partner_name else "Órgão não informado"
+
+
 AREA_RULES: list[tuple[str, tuple[str, ...]]] = [
     (
         "Saúde",
@@ -320,6 +329,8 @@ def build_project(row: dict[str, str]) -> dict[str, Any]:
         agreement_type=row.get("lista_forma_contratacao", ""),
     )
     area = classify_area(raw_title)
+    partner_name = row.get("lista_instituicao_executora", "").strip()
+    partner_group = classify_partner_group(partner_name)
 
     return {
         "id": row.get("lista_ccusto", "").strip(),
@@ -327,11 +338,13 @@ def build_project(row: dict[str, str]) -> dict[str, Any]:
         "responsible": responsible,
         "type": project_type,
         "area": area,
+        "partnerGroup": partner_group,
+        "partnerName": partner_name,
         "rawTitle": raw_title,
         "modality": row.get("lista_modalidade", "").strip(),
         "agreementType": row.get("lista_forma_contratacao", "").strip(),
         "status": row.get("lista_status", "").strip(),
-        "partner": row.get("lista_instituicao_executora", "").strip(),
+        "partner": partner_name,
         "contractor": row.get("lista_instituicao_contratante", "").strip(),
         "startDate": row.get("lista_data_inicio", "").strip(),
         "endDate": row.get("lista_data_fim", "").strip(),
@@ -358,6 +371,7 @@ def main() -> None:
     payload = {
         "generatedFrom": SOURCE_CSV.name,
         "projectCount": len(projects),
+        "partnerCounts": count_by(projects, "partnerGroup"),
         "areaCounts": count_by(projects, "area"),
         "typeCounts": count_by(projects, "type"),
         "projects": projects,

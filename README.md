@@ -1,12 +1,14 @@
-# Scraper Projetos CEIA
+# Scraper Projetos Ativos UFG
 
-Pipeline simples para coletar os projetos não encerrados do CEIA no portal da FUNAPE, gerar um CSV consolidado e publicar uma interface web para exploração por cards, tipo e área.
+Pipeline simples para coletar projetos ativos no portal da FUNAPE, gerar um CSV consolidado e publicar uma interface web para exploração por cards, órgão parceiro, tipo e área.
 
 ## O que este repositório faz
 
-1. Lê o `link.txt` com a URL base do portal e o órgão parceiro alvo.
+1. Lê o `link.txt` com a URL base do portal e as regras de coleta.
 2. Consulta a API pública usada pelo frontend da FUNAPE.
-3. Filtra apenas os projetos do CEIA com status diferente de `Encerrado`.
+3. Filtra dois grupos de projetos:
+   - CEIA com status `Ativo`
+   - Instituto de Informática com status `Ativo` e modalidade `P&D e Inovação` ou `Pesquisa`
 4. Gera um CSV com dados da listagem e do detalhe de cada projeto.
 5. Classifica os projetos por `tipo` e `área`.
 6. Gera um catálogo web estático com busca e filtros.
@@ -36,7 +38,7 @@ Os scripts Python usam apenas a biblioteca padrão.
 
 ## Como gerar os dados
 
-### 1. Coletar os projetos ativos do CEIA
+### 1. Coletar os projetos ativos do catálogo
 
 ```bash
 python scrape_ceia_projetos.py
@@ -114,4 +116,5 @@ Se quiser refinar a taxonomia, altere a lista `AREA_RULES` em `build_project_cat
 - O catálogo mostra os cards com duas informações principais:
   - descrição do projeto
   - responsável
+- O catálogo agora também permite filtrar por `órgão parceiro`.
 - O modal do card exibe metadados adicionais sem poluir a leitura da grade principal.

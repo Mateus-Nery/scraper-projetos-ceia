@@ -1,2 +1,10 @@
 https://transparencia.funape.org.br/projetos/
+
 orgão parceiro: UNIVERSIDADE FEDERAL DE GOIÁS - UFG - POLO EMBRAPII CEIA UFG
+status: Ativo
+
+---
+orgão parceiro: UNIVERSIDADE FEDERAL DE GOIÁS - UFG - INSTITUTO DE INFORMÁTICA - INF
+modalidade: P&D e Inovação
+modalidade: Pesquisa
+status: Ativo
