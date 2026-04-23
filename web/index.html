@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CEIA Projetos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+          </div>
+          <p class="eyebrow">Catálogo vivo dos projetos CEIA não encerrados</p>
+          <h1>CEIA <span>Projetos</span></h1>
+          <p class="hero-text">
+            Explore o portfólio atual por área e tipo. Os cards mostram só o que importa
+            na varredura inicial: a descrição do projeto e a pessoa responsável.
+          </p>
+        </div>
+
+        <div class="hero-stats" id="hero-stats"></div>
+      </header>
+
+      <main class="layout">
+        <section class="catalog-panel">
+          <div class="toolbar">
+            <label class="search-field">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input
+                id="search-input"
+                type="search"
+                placeholder="Buscar por descrição ou responsável"
+                autocomplete="off"
+              />
+            </label>
+            <button class="ghost-button" id="clear-filters" type="button">Limpar filtros</button>
+          </div>
+
+          <section class="filter-block">
+            <div class="filter-heading">
+              <span>Tipo</span>
+              <strong id="type-count-label"></strong>
+            </div>
+            <div class="chip-row" id="type-filters"></div>
+          </section>
+
+          <section class="filter-block">
+            <div class="filter-heading">
+              <span>Área</span>
+              <strong id="area-count-label"></strong>
+            </div>
+            <div class="chip-row" id="area-filters"></div>
+          </section>
+
+          <div class="results-meta">
+            <p id="results-summary"></p>
+          </div>
+
+          <section class="cards-grid" id="cards-grid" aria-live="polite"></section>
+
+          <div class="empty-state hidden" id="empty-state">
+            <h2>Nenhum projeto encontrado</h2>
+            <p>Ajuste a busca ou troque os filtros de área e tipo.</p>
+          </div>
+        </section>
+
+        <aside class="summary-panel">
+          <section class="summary-card">
+            <p class="summary-eyebrow">Resumo</p>
+            <h2>Painel de leitura rápida</h2>
+            <p class="summary-copy">
+              A lateral organiza a distribuição do portfólio e ajuda a entender onde o CEIA
+              está concentrando as iniciativas ativas.
+            </p>
+          </section>
+
+          <section class="summary-card">
+            <div class="summary-head">
+              <h3>Por área</h3>
+              <span id="summary-area-total"></span>
+            </div>
+            <div class="summary-list" id="area-summary"></div>
+          </section>
+
+          <section class="summary-card">
+            <div class="summary-head">
+              <h3>Por tipo</h3>
+              <span id="summary-type-total"></span>
+            </div>
+            <div class="summary-list" id="type-summary"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <dialog id="project-dialog" class="project-dialog">
+      <form method="dialog" class="dialog-panel">
+        <button class="dialog-close" type="submit" aria-label="Fechar">×</button>
+        <div id="dialog-content"></div>
+      </form>
+    </dialog>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
