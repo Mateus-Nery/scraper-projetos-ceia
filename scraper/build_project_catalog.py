@@ -10,9 +10,10 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path(__file__).resolve().parent
-SOURCE_CSV = ROOT / "ceia_projetos_nao_encerrados.csv"
-OUTPUT_JSON = ROOT / "web" / "data" / "projects.json"
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+SOURCE_CSV = SCRIPT_DIR / "ceia_projetos_nao_encerrados.csv"
+OUTPUT_JSON = REPO_ROOT / "web" / "data" / "projects.json"
 
 
 def normalize_text(value: str) -> str:

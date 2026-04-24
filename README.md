@@ -184,15 +184,15 @@ Os scripts usam apenas a biblioteca padrão.
 ### Coletar projetos ativos
 
 ```bash
-python scrape_ceia_projetos.py
+python scraper/scrape_ceia_projetos.py
 ```
 
-Saída: `ceia_projetos_nao_encerrados.csv`
+Saída: `scraper/ceia_projetos_nao_encerrados.csv`
 
 ### Gerar o catálogo classificado
 
 ```bash
-python build_project_catalog.py
+python scraper/build_project_catalog.py
 ```
 
 Saída: `web/data/projects.json`
@@ -220,18 +220,23 @@ IA Generativa e Conversacional, Educação e Capacitação, Logística e Supply 
 
 ```text
 .
-├── build_project_catalog.py        # CSV → JSON classificado
-├── ceia_projetos_nao_encerrados.csv
-├── link.txt                         # config do scraper FUNAPE
-├── scrape_ceia_projetos.py          # scraper FUNAPE
+├── scraper                          # scrapers externos que alimentam o catálogo
+│   ├── scrape_ceia_projetos.py      # scraper FUNAPE (coleta projetos ativos)
+│   ├── build_project_catalog.py     # CSV → JSON classificado
+│   ├── link.txt                     # config do scraper FUNAPE
+│   └── ceia_projetos_nao_encerrados.csv
+├── backend                          # FastAPI (a partir da Fase 1)
+├── web                              # interface estática (catálogo legado)
+│   ├── app.js
+│   ├── data/projects.json
+│   ├── index.html
+│   └── styles.css
 ├── infra
 │   └── supabase_schema.sql          # schema completo do banco (Fase 1+)
+├── docs
+│   └── decisions                    # ADRs — decisões arquiteturais
 ├── .env.example                     # template de variáveis de ambiente
-└── web                              # interface estática
-    ├── app.js
-    ├── data/projects.json
-    ├── index.html
-    └── styles.css
+└── .python-version
 ```
 
-A partir da Fase 1, novas pastas (`backend/`, `webapp/`, `scrapers/sigaa/`) serão criadas no mesmo repositório. Se ficar bagunçado, o repositório será dividido.
+Próximas pastas que entram nas fases seguintes: `scraper/sigaa/` (Fase 4) e `frontend/` (Vue, substitui `web/` quando a Fase 2+ estiver pronta).
