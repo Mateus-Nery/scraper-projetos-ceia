@@ -10,6 +10,8 @@ __pycache__/
 Thumbs.db
 .idea/
 .vscode/
+.claude/
+
 
 # Temporary QA artifacts
 *.log
