@@ -28,3 +28,6 @@ node_modules/
 dist/
 .venv/
 venv/
+
+# pip http cache (sometimes dumped in cwd on Windows)
+pip/
