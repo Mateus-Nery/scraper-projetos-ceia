@@ -15,3 +15,16 @@ Thumbs.db
 
 # Temporary QA artifacts
 *.log
+.tmp_*
+
+# Secrets / env
+.env
+.env.local
+.env.*.local
+.mcp.json
+
+# Build / runtime artifacts (futuras fases)
+node_modules/
+dist/
+.venv/
+venv/

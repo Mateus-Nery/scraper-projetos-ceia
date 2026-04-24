@@ -1,6 +1,6 @@
-# UFG Projetos — Catálogo + Match com IA
+# AplicAI — Catálogo + Match com IA
 
-Plataforma para alunos da UFG explorarem projetos ativos do **CEIA**, **Instituto de Informática** e **AKCIT**, descobrirem aqueles em que têm mais aptidão a partir do próprio CV, e gerarem um rascunho de email pronto para enviar ao coordenador.
+Plataforma para alunos da UFG explorarem projetos ativos do **CEIA**, **Instituto de Informática** e **AKCIT**, descobrirem aqueles em que têm mais aptidão a partir do próprio CV, e gerarem um rascunho de email pronto para enviar ao coordenador. O nome é um trocadilho: o aluno *aplica* para um projeto, com IA no caminho.
 
 > O repositório hoje contém apenas a **base do catálogo** (scraper FUNAPE + interface estática). As demais funcionalidades estão planejadas e serão construídas em fases — ver [Roadmap](#roadmap).
 
@@ -8,9 +8,8 @@ Plataforma para alunos da UFG explorarem projetos ativos do **CEIA**, **Institut
 
 | Componente | Estado |
 |---|---|
-| Scraper FUNAPE (CEIA + INF) | ✅ existe |
+| Scraper FUNAPE (CEIA + INF + AKCIT) | ✅ existe |
 | Interface estática de catálogo | ✅ existe |
-| Inclusão do AKCIT no catálogo | ⬜ planejado |
 | Backend FastAPI + Supabase | ⬜ planejado |
 | Autenticação por email institucional | ⬜ planejado |
 | Match CV ↔ projetos via IA | ⬜ planejado |
@@ -225,6 +224,9 @@ IA Generativa e Conversacional, Educação e Capacitação, Logística e Supply 
 ├── ceia_projetos_nao_encerrados.csv
 ├── link.txt                         # config do scraper FUNAPE
 ├── scrape_ceia_projetos.py          # scraper FUNAPE
+├── infra
+│   └── supabase_schema.sql          # schema completo do banco (Fase 1+)
+├── .env.example                     # template de variáveis de ambiente
 └── web                              # interface estática
     ├── app.js
     ├── data/projects.json
