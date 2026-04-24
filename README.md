@@ -2,7 +2,7 @@
 
 Plataforma para alunos da UFG explorarem projetos ativos do **CEIA**, **Instituto de Informática** e **AKCIT**, descobrirem aqueles em que têm mais aptidão a partir do próprio CV, e gerarem um rascunho de email pronto para enviar ao coordenador. O nome é um trocadilho: o aluno *aplica* para um projeto, com IA no caminho.
 
-> O repositório hoje contém apenas a **base do catálogo** (scraper FUNAPE + interface estática). As demais funcionalidades estão planejadas e serão construídas em fases — ver [Roadmap](#roadmap).
+> A base do catálogo (scraper FUNAPE + interface estática) e o backend da Fase 1 já rodam. As demais funcionalidades estão planejadas e serão construídas em fases — ver [Roadmap](#roadmap).
 
 ## Status
 
@@ -10,7 +10,9 @@ Plataforma para alunos da UFG explorarem projetos ativos do **CEIA**, **Institut
 |---|---|
 | Scraper FUNAPE (CEIA + INF + AKCIT) | ✅ existe |
 | Interface estática de catálogo | ✅ existe |
-| Backend FastAPI + Supabase | ⬜ planejado |
+| Schema Supabase (tabelas + RLS + pgvector) | ✅ aplicado |
+| Backend FastAPI (base + `GET /api/projects`) | ✅ existe |
+| Seed `projects.json` → Supabase | ✅ existe |
 | Autenticação por email institucional | ⬜ planejado |
 | Match CV ↔ projetos via IA | ⬜ planejado |
 | Geração de rascunho de email | ⬜ planejado |
@@ -159,8 +161,8 @@ Email gerado tem footer com link assinado (JWT curto)
 
 ## Roadmap
 
-- [ ] **Fase 0** — Pré-requisitos operacionais (Supabase, Google Cloud, domínio)
-- [ ] **Fase 1** — Backend FastAPI base + migração `projects.json` → Supabase
+- [x] **Fase 0** — Pré-requisitos operacionais (schema Supabase, `.env.example`, layout do repo)
+- [x] **Fase 1** — Backend FastAPI base + seed `projects.json` → Supabase
 - [ ] **Fase 2** — Auth Supabase + cadastro de aluno
 - [ ] **Fase 3** — Embeddings + endpoint de match + tela de upload de CV
 - [ ] **Fase 4** — Scraper SIGAA para enriquecer emails dos coordenadores
@@ -170,34 +172,46 @@ Email gerado tem footer com link assinado (JWT curto)
 - [ ] **Fase 8** — Formulário de competências (alternativa ao upload de CV)
 - [ ] **Fase 9** — Tinder de projetos
 
-## Como rodar (legado — só catálogo estático)
+## Como rodar
 
-Enquanto a Fase 1 não está pronta, o catálogo continua sendo gerado por scripts Python e servido como site estático.
+### Backend FastAPI (Fase 1)
 
-### Requisitos
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r backend/requirements.txt
 
-- Python 3.10+
-- Acesso à internet para consultar a API da FUNAPE
+# preencha .env a partir do .env.example (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+# aplique o schema: infra/supabase_schema.sql no SQL Editor do Supabase
+# popule a tabela projects:
+python backend/scripts/seed_projects.py
 
-Os scripts usam apenas a biblioteca padrão.
+uvicorn backend.app.main:app --reload --port 8000
+```
 
-### Coletar projetos ativos
+Endpoints atuais: `GET /health`, `GET /api/projects` (filtros: `partner_group`, `area`, `project_type`, `limit`). Detalhes em `backend/README.md`.
+
+### Pipeline do scraper (independente do backend)
+
+- Python 3.10+ e acesso à internet (API da FUNAPE); os scripts usam só a biblioteca padrão.
+
+Coletar projetos ativos:
 
 ```bash
 python scraper/scrape_ceia_projetos.py
 ```
 
-Saída: `scraper/ceia_projetos_nao_encerrados.csv`
+Saída: `scraper/ceia_projetos_nao_encerrados.csv`.
 
-### Gerar o catálogo classificado
+Gerar o catálogo classificado:
 
 ```bash
 python scraper/build_project_catalog.py
 ```
 
-Saída: `web/data/projects.json`
+Saída: `web/data/projects.json`.
 
-### Abrir a interface web
+### Abrir a interface estática (catálogo legado)
 
 ```bash
 python -m http.server 4173
