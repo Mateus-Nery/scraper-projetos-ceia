@@ -103,6 +103,8 @@ def classify_partner_group(partner_name: str) -> str:
     normalized_partner = normalize_text(partner_name)
     if "polo embrapii ceia" in normalized_partner:
         return "CEIA"
+    if "akcit" in normalized_partner or "tecnologias imersivas" in normalized_partner:
+        return "AKCIT"
     if "instituto de informatica" in normalized_partner:
         return "Instituto de Informática"
     return title_case_name(partner_name) if partner_name else "Órgão não informado"

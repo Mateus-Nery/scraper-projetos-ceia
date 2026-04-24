@@ -1,6 +1,6 @@
 {
   "generatedFrom": "ceia_projetos_nao_encerrados.csv",
-  "projectCount": 234,
+  "projectCount": 235,
   "partnerCounts": [
     {
       "label": "CEIA",
@@ -9,6 +9,10 @@
     {
       "label": "Instituto de Informática",
       "count": 52
+    },
+    {
+      "label": "AKCIT",
+      "count": 1
     }
   ],
   "areaCounts": [
@@ -17,11 +21,11 @@
       "count": 36
     },
     {
-      "label": "Educação e Capacitação",
-      "count": 29
+      "label": "Outras",
+      "count": 30
     },
     {
-      "label": "Outras",
+      "label": "Educação e Capacitação",
       "count": 29
     },
     {
@@ -80,7 +84,7 @@
     },
     {
       "label": "Pesquisa Aplicada",
-      "count": 70
+      "count": 71
     },
     {
       "label": "Capacitação e Formação",
@@ -622,6 +626,25 @@
       "startDate": "31/10/2024",
       "endDate": "31/10/2026",
       "value": "720000",
+      "controlCode": "PI07274-2023"
+    },
+    {
+      "id": "90.002.002",
+      "description": "Associação Tecnológica - Li - Positivo",
+      "responsible": "Arlindo Rodrigues Galvão Filho",
+      "type": "Pesquisa Aplicada",
+      "area": "Outras",
+      "partnerGroup": "AKCIT",
+      "partnerName": "UNIVERSIDADE FEDERAL DE GOIÁS - UFG - CENTRO DE COMPETÊNCIAS EMBRAPII EM TECNOLOGIAS IMERSIVAS - AKCIT",
+      "rawTitle": "ASSOCIAÇÃO TECNOLÓGICA - LI - POSITIVO",
+      "modality": "Pesquisa",
+      "agreementType": "ACORDO",
+      "status": "Ativo",
+      "partner": "UNIVERSIDADE FEDERAL DE GOIÁS - UFG - CENTRO DE COMPETÊNCIAS EMBRAPII EM TECNOLOGIAS IMERSIVAS - AKCIT",
+      "contractor": "POSITIVO TECNOLOGIA S.A",
+      "startDate": "31/10/2024",
+      "endDate": "31/10/2026",
+      "value": "552000",
       "controlCode": "PI07274-2023"
     },
     {

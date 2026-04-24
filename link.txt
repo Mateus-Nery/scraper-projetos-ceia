@@ -8,3 +8,7 @@ orgão parceiro: UNIVERSIDADE FEDERAL DE GOIÁS - UFG - INSTITUTO DE INFORMÁTIC
 modalidade: P&D e Inovação
 modalidade: Pesquisa
 status: Ativo
+
+---
+orgão parceiro: UNIVERSIDADE FEDERAL DE GOIÁS - UFG - CENTRO DE COMPETÊNCIAS EMBRAPII EM TECNOLOGIAS IMERSIVAS - AKCIT
+status: Ativo
